@@ -1,24 +1,52 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export default function SignUp() {
   const navigate = useNavigate();
 
-  function onLoginClick() {
-    navigate("/");
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  function onRegisterClick() {
+    axios
+      .post("http://localhost:5000/sign-up", userData)
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
   }
 
   return (
     <Container>
       <Title>MyWallet</Title>
-      <Input placeholder="Nome" onChange={{}} />
-      <Input placeholder="E-mail" onChange={{}} />
-      <Input placeholder="Senha" onChange={{}} />
-      <Input placeholder="Confirme a senha" onChange={{}} />{" "}
-      <Input placeholder="Senha" onChange={{}} />
-      <Enter onClick={{}}>Cadastrar</Enter>
-      <Login onClick={onLoginClick}>Já tem uma conta? Entre agora!</Login>
+
+      <Input
+        placeholder="Nome"
+        onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+      />
+      <Input
+        placeholder="E-mail"
+        onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+      />
+      <Input
+        placeholder="Senha"
+        onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+      />
+      <Input
+        placeholder="Confirme a senha"
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+
+      <Enter onClick={onRegisterClick}>Cadastrar</Enter>
+
+      <Login onClick={() => navigate("/")}>
+        Já tem uma conta? Entre agora!
+      </Login>
     </Container>
   );
 }

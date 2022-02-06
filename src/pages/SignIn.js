@@ -1,23 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 export default function SignIn() {
   const navigate = useNavigate();
 
-  function onRegisterClick() {
-    navigate("/sign-up");
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  });
+
+  function onEnterClick() {
+    navigate("/home");
+    axios
+      .post("http://localhost:5000/sign-in", userData)
+      .then((res) => console.log(res.data))
+      .catch((error) => console.log(error));
   }
 
   return (
     <Container>
       <Title>MyWallet</Title>
 
-      <Input placeholder="E-mail" onChange={{}} />
-      <Input placeholder="Senha" onChange={{}} />
+      <Input
+        placeholder="E-mail"
+        onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+      />
+      <Input
+        placeholder="Senha"
+        onChange={(e) => setUserData({ ...userData, password: e.target.value })}
+      />
 
-      <Enter onClick={{}}>Entrar</Enter>
-      <Register onClick={onRegisterClick}>Primeira vez? Cadastre-se!</Register>
+      <Enter onClick={onEnterClick}>Entrar</Enter>
+      <Register onClick={() => navigate("/sign-up")}>
+        Primeira vez? Cadastre-se!
+      </Register>
     </Container>
   );
 }
