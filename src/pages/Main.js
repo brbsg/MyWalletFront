@@ -1,10 +1,24 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useGeneral } from "../context/General";
 
 export default function Home() {
+  const { user, setUser } = useGeneral();
+
   const navigate = useNavigate();
+
   const [statements, setStatements] = useState([]);
+
+  console.log(user.id);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/entries/${user.id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((res) => console.log(res));
+  }, []);
 
   return (
     <Container>

@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
+import { GeneralProvider } from "./context/General";
 import GlobalStyles from "./globalStyles/GlobalStyles";
 import Home from "./pages/Main";
 import NewEntry from "./pages/NewEntry";
 import NewExit from "./pages/NewExit";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
+
+//gustavo@gmail.com
 
 export default function App() {
   useEffect(() => {
@@ -18,16 +21,18 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <GlobalStyles />
+    <GeneralProvider>
+      <BrowserRouter>
+        <GlobalStyles />
 
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/home/new-entry" element={<NewEntry />} />
-        <Route path="/home/new-exit" element={<NewExit />} />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/home/new-entry" element={<NewEntry />} />
+          <Route path="/home/new-exit" element={<NewExit />} />
+        </Routes>
+      </BrowserRouter>
+    </GeneralProvider>
   );
 }

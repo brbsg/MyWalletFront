@@ -1,15 +1,51 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useGeneral } from "../context/General";
 
 export default function NewExit() {
+  const { user } = useGeneral();
+
+  const [entryData, setEntryData] = useState({
+    value: "",
+    description: "",
+  });
+
+  function sendNewEntry() {
+    if (!entryData.value || !entryData.description) {
+      alert("Preencha todos os campos");
+      return;
+    }
+
+    axios
+      .post("http://localhost:5000/new-entry", entryData, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((res) => console.log(res))
+      .catch((error) => console.log(error));
+  }
+
   return (
     <Container>
       <Header>Nova entrada</Header>
 
-      <Input placeholder="Valor" />
-      <Input placeholder="Descrição" />
+      <Input
+        placeholder="Valor"
+        value={entryData.value}
+        onChange={(e) => {
+          if (!isNaN(e.target.value)) {
+            setEntryData({ ...entryData, value: e.target.value });
+          }
+        }}
+      />
+      <Input
+        placeholder="Descrição"
+        onChange={(e) =>
+          setEntryData({ ...entryData, description: e.target.value })
+        }
+      />
 
-      <SaveButton>Salvar entrada</SaveButton>
+      <SaveButton onClick={sendNewEntry}>Salvar entrada</SaveButton>
     </Container>
   );
 }

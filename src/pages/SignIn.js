@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import { useGeneral } from "../context/General";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const { user, setUser } = useGeneral();
 
   const [userData, setUserData] = useState({
     email: "",
@@ -12,10 +14,12 @@ export default function SignIn() {
   });
 
   function onEnterClick() {
-    navigate("/home");
     axios
       .post("http://localhost:5000/sign-in", userData)
-      .then((res) => console.log(res.data))
+      .then((res) => {
+        setUser({ id: res.data.id, token: res.data.token });
+        navigate("/home");
+      })
       .catch((error) => console.log(error));
   }
 
