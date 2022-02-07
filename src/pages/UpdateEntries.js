@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGeneral } from "../context/General";
 
-export default function NewExit() {
-  const { user } = useGeneral();
+export default function UpdateEntries() {
+  const { user, statementId } = useGeneral();
 
   const navigate = useNavigate();
 
@@ -21,9 +21,9 @@ export default function NewExit() {
     }
 
     axios
-      .post(
-        "http://localhost:5000/new-entry",
-        { value: -entryData.value, description: entryData.description },
+      .put(
+        `http://localhost:5000/statements/${statementId}`,
+        { value: entryData.value, description: entryData.description },
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
@@ -36,7 +36,7 @@ export default function NewExit() {
 
   return (
     <Container>
-      <Header>Nova saída</Header>
+      <Header>Editar entrada</Header>
 
       <Input
         placeholder="Valor"
@@ -47,6 +47,7 @@ export default function NewExit() {
           }
         }}
       />
+
       <Input
         placeholder="Descrição"
         onChange={(e) =>
@@ -54,7 +55,7 @@ export default function NewExit() {
         }
       />
 
-      <SaveButton onClick={sendNewEntry}>Salvar saída</SaveButton>
+      <SaveButton onClick={sendNewEntry}>Atualizar entrada</SaveButton>
     </Container>
   );
 }

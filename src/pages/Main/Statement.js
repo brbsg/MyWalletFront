@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { GrFormClose } from "react-icons/gr";
 import axios from "axios";
 import { useGeneral } from "../../context/General";
+import { useNavigate } from "react-router-dom";
 
 export default function Statement({
   render,
@@ -12,7 +13,9 @@ export default function Statement({
   value,
   date,
 }) {
-  const { user } = useGeneral();
+  const navigate = useNavigate();
+
+  const { user, setStatementId } = useGeneral();
 
   function onDeleteClick() {
     const resultado = window.confirm("Deseja mesmo apagar?");
@@ -29,10 +32,20 @@ export default function Statement({
       .catch((error) => console.log(error));
   }
 
+  function onDescriptionClick() {
+    setStatementId(id);
+
+    if (value >= 0) {
+      navigate("/home/update-entries");
+    } else {
+      navigate("/home/update-exits");
+    }
+  }
+
   return (
     <Container>
       <span>{date}</span>
-      <span>{description}</span>
+      <span onClick={onDescriptionClick}>{description}</span>
       <span style={{ color: value > 0 ? "#03AC00" : "#C70000" }}>{value}</span>
       <GrFormClose size={20} onClick={onDeleteClick} />
     </Container>

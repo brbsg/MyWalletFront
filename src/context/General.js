@@ -9,15 +9,20 @@ export function GeneralProvider({ children }) {
     token: "",
   });
 
+  const [statementId, setStatementId] = useState();
+
   return (
-    <GeneralContext.Provider value={{ user, setUser }}>
+    <GeneralContext.Provider
+      value={{ statementId, setStatementId, user, setUser }}
+    >
       {children}
     </GeneralContext.Provider>
   );
 }
 
 export function useGeneral() {
-  const { user, setUser } = useContext(GeneralContext);
+  const { statementId, setStatementId, user, setUser } =
+    useContext(GeneralContext);
 
-  return { user, setUser };
+  return { statementId, setStatementId, user, setUser };
 }
