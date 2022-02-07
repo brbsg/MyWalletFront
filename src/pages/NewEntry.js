@@ -1,10 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGeneral } from "../context/General";
 
 export default function NewExit() {
   const { user } = useGeneral();
+
+  const navigate = useNavigate();
 
   const [entryData, setEntryData] = useState({
     value: "",
@@ -21,7 +24,9 @@ export default function NewExit() {
       .post("http://localhost:5000/new-entry", entryData, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate("/home");
+      })
       .catch((error) => console.log(error));
   }
 

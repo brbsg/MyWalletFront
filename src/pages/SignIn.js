@@ -17,10 +17,15 @@ export default function SignIn() {
     axios
       .post("http://localhost:5000/sign-in", userData)
       .then((res) => {
-        setUser({ id: res.data.id, token: res.data.token });
+        console.log(res.data);
+        setUser({
+          id: res.data.id,
+          name: res.data.name,
+          token: res.data.token,
+        });
         navigate("/home");
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {});
   }
 
   return (
@@ -32,6 +37,7 @@ export default function SignIn() {
         onChange={(e) => setUserData({ ...userData, email: e.target.value })}
       />
       <Input
+        type={"password"}
         placeholder="Senha"
         onChange={(e) => setUserData({ ...userData, password: e.target.value })}
       />
@@ -103,6 +109,8 @@ const Enter = styled.button`
   line-height: 23px;
 
   color: #ffffff;
+
+  cursor: pointer;
 `;
 
 const Register = styled.button`
@@ -118,4 +126,6 @@ const Register = styled.button`
   /* identical to box height */
 
   color: #ffffff;
+
+  cursor: pointer;
 `;

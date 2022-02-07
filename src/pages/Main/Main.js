@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useGeneral } from "../context/General";
+import { useGeneral } from "../../context/General";
+import Statement from "./Statement";
 
 export default function Home() {
   const { user, setUser } = useGeneral();
@@ -11,23 +12,29 @@ export default function Home() {
 
   const [statements, setStatements] = useState([]);
 
-  console.log(user.id);
   useEffect(() => {
     axios
       .get(`http://localhost:5000/entries/${user.id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
-      .then((res) => console.log(res));
+      .then((res) => {
+        setStatements(res.data);
+        console.log(res);
+      });
   }, []);
 
   return (
     <Container>
-      <Header>Olá, Pênis</Header>
+      <Header>Olá, {user.name}</Header>
 
       <Main>
         {statements.length === 0 && (
           <span>Não há registros de entrada ou saída</span>
         )}
+
+        {statements.map((e) => (
+          <Statement key={e._id} description={e.description} value={e.value} />
+        ))}
       </Main>
 
       <div
@@ -70,6 +77,7 @@ const Header = styled.header`
 
 const Main = styled.main`
   display: flex;
+  flex-direction: column;
   margin: 0;
   height: 70vh;
   width: 95%;

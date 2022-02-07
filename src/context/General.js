@@ -5,6 +5,7 @@ const GeneralContext = createContext();
 export function GeneralProvider({ children }) {
   const [user, setUser] = useState({
     id: "",
+    name: "",
     token: "",
   });
 

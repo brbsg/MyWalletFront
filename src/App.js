@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import WebFont from "webfontloader";
 import { GeneralProvider } from "./context/General";
 import GlobalStyles from "./globalStyles/GlobalStyles";
-import Home from "./pages/Main";
+import Home from "./pages/Main/Main";
 import NewEntry from "./pages/NewEntry";
 import NewExit from "./pages/NewExit";
 import SignIn from "./pages/SignIn";

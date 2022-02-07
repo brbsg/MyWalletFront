@@ -15,10 +15,24 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   function onRegisterClick() {
+    if (userData.password !== confirmPassword)
+      return alert("Senhas não são iguais!");
+
+    if (
+      !userData.name ||
+      !userData.email ||
+      !userData.password ||
+      !confirmPassword
+    )
+      return alert("Preencha todos os campos!");
+
     axios
       .post("http://localhost:5000/sign-up", userData)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+      .then((res) => {
+        navigate("/");
+        alert("Usuário criado com sucesso!");
+      })
+      .catch((error) => alert("Erro ao criar usuário!!!"));
   }
 
   return (
@@ -34,10 +48,12 @@ export default function SignUp() {
         onChange={(e) => setUserData({ ...userData, email: e.target.value })}
       />
       <Input
+        type={"password"}
         placeholder="Senha"
         onChange={(e) => setUserData({ ...userData, password: e.target.value })}
       />
       <Input
+        type={"password"}
         placeholder="Confirme a senha"
         onChange={(e) => setConfirmPassword(e.target.value)}
       />
@@ -110,6 +126,8 @@ const Enter = styled.button`
   line-height: 23px;
 
   color: #ffffff;
+
+  cursor: pointer;
 `;
 
 const Login = styled.button`
@@ -125,4 +143,6 @@ const Login = styled.button`
   /* identical to box height */
 
   color: #ffffff;
+
+  cursor: pointer;
 `;
