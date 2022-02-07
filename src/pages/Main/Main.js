@@ -6,7 +6,9 @@ import { useGeneral } from "../../context/General";
 import Statement from "./Statement";
 
 export default function Home() {
-  const { user, setUser } = useGeneral();
+  const { user } = useGeneral();
+
+  const [render, setRender] = useState(false);
 
   const navigate = useNavigate();
 
@@ -22,14 +24,14 @@ export default function Home() {
         setStatements(res.data);
         console.log(res);
       });
-  }, []);
+  }, [user, render]);
 
   useEffect(() => {
     let auxCount = 0;
 
-    statements.map((e) => {
+    for (let e of statements) {
       auxCount += Number(e.value);
-    });
+    }
 
     setBalance(auxCount);
   }, [statements]);
@@ -54,9 +56,12 @@ export default function Home() {
                 return (
                   <Statement
                     key={e._id}
+                    id={e._id}
                     date={e.date}
                     description={e.description}
                     value={e.value}
+                    render={render}
+                    setRender={setRender}
                   />
                 );
               })}

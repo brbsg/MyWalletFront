@@ -1,12 +1,40 @@
 import React from "react";
 import styled from "styled-components";
+import { GrFormClose } from "react-icons/gr";
+import axios from "axios";
+import { useGeneral } from "../../context/General";
 
-export default function Statement({ description, value, date }) {
+export default function Statement({
+  render,
+  setRender,
+  id,
+  description,
+  value,
+  date,
+}) {
+  const { user } = useGeneral();
+
+  function onDeleteClick() {
+    const resultado = window.confirm("Deseja mesmo apagar?");
+
+    if (!resultado) return;
+
+    axios
+      .delete(`http://localhost:5000/statements/${id}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((res) => {
+        setRender(!render);
+      })
+      .catch((error) => console.log(error));
+  }
+
   return (
     <Container>
       <span>{date}</span>
       <span>{description}</span>
       <span style={{ color: value > 0 ? "#03AC00" : "#C70000" }}>{value}</span>
+      <GrFormClose size={20} onClick={onDeleteClick} />
     </Container>
   );
 }
@@ -43,12 +71,13 @@ export const Container = styled.div`
   }
 
   span:nth-child(3) {
-    width: fit-content;
+    width: 50px;
 
     font-style: normal;
     font-weight: normal;
     font-size: 16px;
     line-height: 19px;
     text-align: right;
+    padding-right: 5px;
   }
 `;

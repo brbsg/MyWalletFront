@@ -6,7 +6,7 @@ import { useGeneral } from "../context/General";
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const { user, setUser } = useGeneral();
+  const { setUser } = useGeneral();
 
   const [userData, setUserData] = useState({
     email: "",
