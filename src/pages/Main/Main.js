@@ -11,10 +11,11 @@ export default function Home() {
   const navigate = useNavigate();
 
   const [statements, setStatements] = useState([]);
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/entries/${user.id}`, {
+      .get(`http://localhost:5000/statements/${user.id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
@@ -23,18 +24,52 @@ export default function Home() {
       });
   }, []);
 
+  useEffect(() => {
+    let auxCount = 0;
+
+    statements.map((e) => {
+      auxCount += Number(e.value);
+    });
+
+    setBalance(auxCount);
+  }, [statements]);
+
   return (
     <Container>
       <Header>Olá, {user.name}</Header>
 
-      <Main>
+      <Main
+        style={{
+          justifyContent: statements.length === 0 ? "center" : "space-between",
+        }}
+      >
         {statements.length === 0 && (
           <span>Não há registros de entrada ou saída</span>
         )}
 
-        {statements.map((e) => (
-          <Statement key={e._id} description={e.description} value={e.value} />
-        ))}
+        {statements.length !== 0 && (
+          <>
+            <div style={{ width: "100%" }}>
+              {statements.map((e) => {
+                return (
+                  <Statement
+                    key={e._id}
+                    date={e.date}
+                    description={e.description}
+                    value={e.value}
+                  />
+                );
+              })}
+            </div>
+
+            <Balance>
+              <span>SALDO</span>
+              <span style={{ color: balance >= 0 ? "#03AC00" : "#C70000" }}>
+                {balance}
+              </span>
+            </Balance>
+          </>
+        )}
       </Main>
 
       <div
@@ -61,7 +96,7 @@ const Container = styled.div`
   gap: 10px;
   padding: 5%;
 
-  @media (max-width: 800px) {
+  @media (max-width: 1000px) {
     width: 100vw;
   }
 `;
@@ -84,7 +119,8 @@ const Main = styled.main`
   border-radius: 5px;
   background-color: white;
   align-items: center;
-  justify-content: center;
+  padding: 5px 0;
+
   span {
     display: block;
     margin: 0;
@@ -96,6 +132,33 @@ const Main = styled.main`
     text-align: center;
 
     color: #868686;
+  }
+`;
+
+const Balance = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px;
+
+  span:nth-child(1) {
+    width: fit-content;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 20px;
+    /* identical to box height */
+
+    color: #000000;
+  }
+  span:nth-child(2) {
+    width: fit-content;
+
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 20px;
   }
 `;
 

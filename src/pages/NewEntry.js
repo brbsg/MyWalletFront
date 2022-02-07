@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGeneral } from "../context/General";
 
-export default function NewExit() {
+export default function NewEntry() {
   const { user } = useGeneral();
 
   const navigate = useNavigate();
@@ -14,6 +14,8 @@ export default function NewExit() {
     description: "",
   });
 
+  console.log(user.token);
+
   function sendNewEntry() {
     if (!entryData.value || !entryData.description) {
       alert("Preencha todos os campos");
@@ -21,9 +23,13 @@ export default function NewExit() {
     }
 
     axios
-      .post("http://localhost:5000/new-entry", entryData, {
-        headers: { Authorization: `Bearer ${user.token}` },
-      })
+      .post(
+        "http://localhost:5000/new-entry",
+        { value: entryData.value, description: entryData.description },
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      )
       .then((res) => {
         navigate("/home");
       })
@@ -43,6 +49,7 @@ export default function NewExit() {
           }
         }}
       />
+
       <Input
         placeholder="Descrição"
         onChange={(e) =>
