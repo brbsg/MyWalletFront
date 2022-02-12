@@ -27,7 +27,7 @@ export default function SignUp() {
       return alert("Preencha todos os campos!");
 
     axios
-      .post("http://localhost:5000/sign-up", userData)
+      .post("https://barbosa-wallet.herokuapp.com/sign-up", userData)
       .then((res) => {
         navigate("/");
         alert("Usuário criado com sucesso!");

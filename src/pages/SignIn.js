@@ -15,7 +15,7 @@ export default function SignIn() {
 
   function onEnterClick() {
     axios
-      .post("http://localhost:5000/sign-in", userData)
+      .post("https://barbosa-wallet.herokuapp.com/sign-in", userData)
       .then((res) => {
         console.log(res.data);
         setUser({

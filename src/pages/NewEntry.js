@@ -24,7 +24,7 @@ export default function NewEntry() {
 
     axios
       .post(
-        "http://localhost:5000/new-entry",
+        "https://barbosa-wallet.herokuapp.com/new-entry",
         { value: entryData.value, description: entryData.description },
         {
           headers: { Authorization: `Bearer ${user.token}` },

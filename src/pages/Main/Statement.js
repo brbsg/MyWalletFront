@@ -23,7 +23,7 @@ export default function Statement({
     if (!resultado) return;
 
     axios
-      .delete(`http://localhost:5000/statements/${id}`, {
+      .delete(`https://barbosa-wallet.herokuapp.com/statements/${id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {

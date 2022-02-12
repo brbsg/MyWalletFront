@@ -22,7 +22,7 @@ export default function UpdateExits() {
 
     axios
       .put(
-        `http://localhost:5000/statements/${statementId}`,
+        `https://barbosa-wallet.herokuapp.com/statements/${statementId}`,
         { value: -entryData.value, description: entryData.description },
         {
           headers: { Authorization: `Bearer ${user.token}` },

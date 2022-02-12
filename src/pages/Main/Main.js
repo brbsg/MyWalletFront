@@ -17,7 +17,7 @@ export default function Home() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/statements/${user.id}`, {
+      .get(`https://barbosa-wallet.herokuapp.com/statements/${user.id}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => {
